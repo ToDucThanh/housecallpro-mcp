@@ -1,0 +1,17 @@
+{
+    "name": "toducthanh",
+    "owner": {
+      "name": "toducthanh"
+    },
+    "plugins": [
+      {
+        "name": "housecallpro-mcp",
+        "source": {
+          "source": "github",
+          "repo": "toducthanh/housecallpro-mcp"
+        },
+        "description": "MCP server and skills for the Housecall Pro public API",
+        "version": "0.1.0"
+      }
+    ]
+}

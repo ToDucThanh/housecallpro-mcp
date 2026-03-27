@@ -1,0 +1,63 @@
+{
+  "name": "@toducthanh/housecallpro-mcp",
+  "version": "0.1.0",
+  "description": "MCP server and skills for the Housecall Pro public API",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "housecallpro-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist/",
+    ".claude-plugin/",
+    "skills/",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "mcp",
+    "housecall-pro",
+    "housecallpro",
+    "claude",
+    "claude-code",
+    "field-service"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toducthanh/housecallpro-mcp.git"
+  },
+  "homepage": "https://github.com/toducthanh/housecallpro-mcp#readme",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "generate-types": "openapi-typescript housecall_v1.yaml -o src/types/housecall.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --config vitest.unit.config.ts",
+    "test:unit": "vitest run --config vitest.unit.config.ts",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:watch": "vitest --config vitest.unit.config.ts",
+    "test:coverage": "vitest run --config vitest.unit.config.ts --coverage",
+    "validate": "tsc --noEmit && echo 'Types OK'",
+    "clean": "rm -rf dist",
+    "rebuild": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "latest",
+    "axios": "^1.7.0",
+    "axios-retry": "^4.5.0",
+    "dotenv": "^16.0.0",
+    "zod": "^3.23.0",
+    "zod-validation-error": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^4.1.2",
+    "openapi-typescript": "^7.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^4.1.2"
+  }
+}
