@@ -36,7 +36,7 @@ field formats, example prompts, and tool reference.
 ```bash
 claude mcp add housecallpro --scope user \
   -e HOUSECALL_API_KEY=your_api_key_here \
-  -- npx -y @toducthanh/housecallpro-mcp
+  -- npx -y @toducthanh/housecallpro-mcp@latest
 ```
 
 Replace `your_api_key_here` with your real API key.

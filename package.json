@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/toducthanh/housecallpro-mcp#readme",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node -e \"const fs=require('fs');const f='dist/index.js';const c=fs.readFileSync(f,'utf8');if(!c.startsWith('#!/'))fs.writeFileSync(f,'#!/usr/bin/env node\\n'+c);require('fs').chmodSync(f,0o755);\"",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "generate-types": "openapi-typescript housecall_v1.yaml -o src/types/housecall.ts",
