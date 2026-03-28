@@ -29,7 +29,7 @@
 
 ### Step 2 — Install and configure the plugin
 
-Run `/plugin` → open the **Discover** tab → find `housecallpro-mcp` → install it.
+Run `/plugin` → open the **Marketplaces** tab → select `toducthanh` → **Browse plugins** → find `housecallpro-mcp` → install it.
 
 After install, go to the **Installed** tab → select `housecallpro-mcp` → **Configure options** and enter your credentials:
 
