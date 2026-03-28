@@ -1,6 +1,6 @@
 {
   "name": "@toducthanh/housecallpro-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "MCP server and skills for the Housecall Pro public API",
   "type": "module",
   "main": "dist/index.js",
@@ -11,7 +11,9 @@
     "dist/",
     ".claude-plugin/",
     "skills/",
-    "README.md"
+    ".mcp.json",
+    "README.md",
+    "LICENSE"
   ],
   "publishConfig": {
     "access": "public"

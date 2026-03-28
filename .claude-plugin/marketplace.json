@@ -11,7 +11,7 @@
           "repo": "toducthanh/housecallpro-mcp"
         },
         "description": "MCP server and skills for the Housecall Pro public API",
-        "version": "0.1.0"
+        "version": "0.1.2"
       }
     ]
 }

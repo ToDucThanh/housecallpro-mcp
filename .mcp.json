@@ -1,0 +1,15 @@
+{
+    "mcpServers": {
+      "housecallpro": {
+        "command": "npx",
+        "args": ["-y", "@toducthanh/housecallpro-mcp@latest"],
+        "env": {
+          "HOUSECALL_AUTH_METHOD": "${user_config.auth_method}",
+          "HOUSECALL_API_KEY": "${user_config.api_key}",
+          "HOUSECALL_CLIENT_SECRET": "${user_config.client_secret}",
+          "HOUSECALL_CLIENT_ID": "${user_config.client_id}",
+          "HOUSECALL_OAUTH_TOKEN": "${user_config.oauth_token}"
+        }
+      }
+    }
+}

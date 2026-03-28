@@ -1,4 +1,7 @@
-# @toducthanh/housecallpro-mcp
+# Housecall Pro MCP
+
+[![npm](https://img.shields.io/npm/v/@toducthanh/housecallpro-mcp)](https://www.npmjs.com/package/@toducthanh/housecallpro-mcp)
+[![GitHub](https://img.shields.io/badge/GitHub-toducthanh%2Fhousecallpro--mcp-blue?logo=github)](https://github.com/toducthanh/housecallpro-mcp)
 
 > MCP server and Claude Code plugin for the [Housecall Pro](https://www.housecallpro.com/) public API.
 > Manage customers, book jobs, create estimates, track invoices, handle leads and more — all from natural language in Claude Code.
@@ -14,7 +17,7 @@
 
 ---
 
-## Installation — 3 steps
+## Installation - 2 steps
 
 ### Step 1 — Register the marketplace
 
@@ -22,28 +25,41 @@
 /plugin marketplace add toducthanh/housecallpro-mcp
 ```
 
-### Step 2 — Install the plugin (skills)
+> To scope to the current project only, add `--scope local`. To share with all repo collaborators, add `--scope project`.
 
-```bash
-/plugin install housecallpro-mcp@toducthanh
-```
+### Step 2 — Install and configure the plugin
 
-This loads the Housecall Pro skill into Claude Code — workflow guides,
-field formats, example prompts, and tool reference.
+Run `/plugin` → open the **Discover** tab → find `housecallpro-mcp` → install it.
 
-### Step 3 — Register the MCP server with your API key
+After install, go to the **Installed** tab → select `housecallpro-mcp` → **Configure options** and enter your credentials:
 
-```bash
-claude mcp add housecallpro --scope user \
-  -e HOUSECALL_API_KEY=your_api_key_here \
-  -- npx -y @toducthanh/housecallpro-mcp@latest
-```
+**API key auth:**
 
-Replace `your_api_key_here` with your real API key.
+| Option | Value |
+|---|---|
+| Authentication method | `apikey` |
+| Housecall Pro API key | your API key |
+
+**OAuth 2.0:**
+
+| Option | Value |
+|---|---|
+| Authentication method | `oauth` |
+| Housecall Pro client ID | your OAuth client ID |
+| Housecall Pro client secret | your OAuth client secret |
+| Housecall Pro OAuth token | your OAuth access token |
+
+> You can also install via CLI (user scope by default):
+> ```bash
+> /plugin install housecallpro-mcp@toducthanh
+> ```
+> Then configure credentials through `/plugin` → Installed tab → Configure options.
+
+Run `/reload-plugins` to activate the plugin.
 
 ### Verify it's working
 
-Restart Claude Code, then run:
+Run inside Claude Code:
 
 ```bash
 /skills    ← should list housecallpro
@@ -202,28 +218,6 @@ Supported on: `list_customers`, `list_jobs`, `list_estimates`, `list_leads`,
 
 ---
 
-## Authentication
-
-### API Key (single-company use — recommended)
-
-```bash
-claude mcp add housecallpro --scope user \
-  -e HOUSECALL_API_KEY=your_key \
-  -e HOUSECALL_AUTH_METHOD=apikey \
-  -- npx -y @toducthanh/housecallpro-mcp
-```
-
-### OAuth 2.0 (multi-company / partner apps)
-
-```bash
-claude mcp add housecallpro --scope user \
-  -e HOUSECALL_AUTH_METHOD=oauth \
-  -e HOUSECALL_OAUTH_TOKEN=your_oauth_token \
-  -- npx -y @toducthanh/housecallpro-mcp
-```
-
----
-
 ## Error reference
 
 | Error | Cause | Fix |
@@ -236,8 +230,8 @@ claude mcp add housecallpro --scope user \
 | `Must be ISO 8601 format` | Wrong date format | Use `"2025-05-01T09:00:00"` |
 | `Must be a valid phone number` | Invalid phone | Use `"+1 555 123 4567"` |
 | `ID cannot be empty` | Empty string as ID | Fetch the correct ID first |
-| `/skills` shows nothing | Plugin not loaded | Re-run steps 1 & 2, restart Claude Code |
-| `/mcp` doesn't show housecallpro | MCP not registered | Re-run step 3 |
+| `/skills` shows nothing | Plugin not loaded | Re-run steps 1 & 2, then `/reload-plugins` |
+| `/mcp` doesn't show housecallpro | MCP not started | Go to `/plugin` → Installed → Configure options and verify credentials |
 
 ---
 
@@ -288,19 +282,47 @@ npm run build
 npm run dev
 ```
 
-Test locally with Claude Code:
+**Fast iteration:** load the plugin for the current session only, no install needed:
 
 ```bash
 claude --plugin-dir .
 ```
 
-Then register the MCP pointing to your local build:
+Use `/reload-plugins` inside the session to pick up changes without restarting.
+
+**Full install flow test:**
 
 ```bash
-claude mcp add housecallpro --scope user \
-  -e HOUSECALL_API_KEY=your_key \
-  -e HOUSECALL_AUTH_METHOD=apikey \
-  -- node /path/to/housecallpro-mcp/dist/index.js
+# Register the local marketplace scoped to this project only
+claude plugin marketplace add ./ --scope local
+
+# Then in Claude Code: /plugin → Discover → install housecallpro-mcp → Configure options
+```
+
+To clean up after testing:
+
+**Option A — Remove the marketplace (removes the plugin too):**
+
+```bash
+claude plugin marketplace remove toducthanh --scope local
+```
+
+**Option B — Uninstall the plugin first, then remove the marketplace:**
+
+```bash
+# Via CLI
+claude plugin uninstall housecallpro-mcp --scope local
+
+# Or via UI: /plugin → Installed tab → select housecallpro-mcp → Uninstall
+```
+
+Then remove the marketplace:
+
+```bash
+# Via CLI
+claude plugin marketplace remove toducthanh --scope local
+
+# Or via UI: /plugin → Marketplaces tab → select toducthanh → Remove
 ```
 
 ---
@@ -312,3 +334,9 @@ claude mcp add housecallpro --scope user \
 - [GitHub repo](https://github.com/toducthanh/housecallpro-mcp)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [Claude Code](https://claude.ai/code)
+
+---
+
+## License
+
+Code released under the [MIT License](LICENSE).

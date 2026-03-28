@@ -1,5 +1,37 @@
 {
   "name": "housecallpro-mcp",
-  "version": "0.1.0",
-  "description": "MCP server and skills for the Housecall Pro public API"
+  "version": "0.1.2",
+  "description": "MCP server and skills for the Housecall Pro public API",
+  "userConfig": {
+    "auth_method": {
+      "type": "string",
+      "title": "Authentication method",
+      "description": "apikey or oauth (default: apikey)",
+      "sensitive": false
+    },
+    "api_key": {
+      "type": "string",
+      "title": "Housecall Pro API key",
+      "description": "API key from Housecall Pro — required only for apikey auth method",
+      "sensitive": true
+    },
+    "client_secret": {
+      "type": "string",
+      "title": "Housecall Pro client secret",
+      "description": "OAuth client secret from Housecall Pro — required only for oauth auth method",
+      "sensitive": true
+    },
+    "client_id": {
+      "type": "string",
+      "title": "Housecall Pro client ID",
+      "description": "OAuth client ID from Housecall Pro — required only for oauth auth method",
+      "sensitive": true
+    },
+    "oauth_token": {
+      "type": "string",
+      "title": "Housecall Pro OAuth token",
+      "description": "OAuth access token from Housecall Pro — required only for oauth auth method",
+      "sensitive": true
+    }
+  }
 }
