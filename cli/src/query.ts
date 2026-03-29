@@ -12,6 +12,7 @@ export function buildClaudeArgs(
   return [
     '--mcp-config', mcpConfigPath,
     '--append-system-prompt', skillContent,
+    '--dangerously-skip-permissions',
     '-p', query,
   ]
 }
