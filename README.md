@@ -31,7 +31,7 @@ A standalone terminal tool. One curl command installs everything — no manual c
 #### 1. Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/cli/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/feature/cli/install.sh | sh
 ```
 
 > If `~/.local/bin` is not in your `$PATH`, the installer will print the command to add it.
@@ -39,7 +39,7 @@ curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/cli/ins
 To pin to a specific version:
 
 ```bash
-HCPRO_VERSION=v0.2.0 curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/cli/install.sh | sh
+HCPRO_VERSION=v0.2.0 curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/feature/cli/install.sh | sh
 ```
 
 #### 2. Connect Housecall Pro
@@ -104,7 +104,7 @@ hcpro auth claude logout   # remove Claude credentials from hcpro (does not sign
 Re-run the install script — it replaces the existing binary in place:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/cli/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/feature/cli/install.sh | sh
 ```
 
 #### Uninstall hcpro
