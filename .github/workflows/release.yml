@@ -19,7 +19,7 @@ jobs:
             os: macos-14
             artifact: hcpro-darwin-arm64
           - target: bun-darwin-x64
-            os: macos-13
+            os: macos-14
             artifact: hcpro-darwin-x64
           - target: bun-linux-x64
             os: ubuntu-22.04
