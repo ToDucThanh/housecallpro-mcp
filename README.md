@@ -1,25 +1,135 @@
 # Housecall Pro MCP
 
 [![npm](https://img.shields.io/npm/v/@toducthanh/housecallpro-mcp)](https://www.npmjs.com/package/@toducthanh/housecallpro-mcp)
+[![GitHub release](https://img.shields.io/github/v/release/toducthanh/housecallpro-mcp)](https://github.com/toducthanh/housecallpro-mcp/releases)
 [![GitHub](https://img.shields.io/badge/GitHub-toducthanh%2Fhousecallpro--mcp-blue?logo=github)](https://github.com/toducthanh/housecallpro-mcp)
 
-> MCP server and Claude Code plugin for the [Housecall Pro](https://www.housecallpro.com/) public API.
-> Manage customers, book jobs, create estimates, track invoices, handle leads and more — all from natural language in Claude Code.
+> Terminal CLI and Claude Code plugin for the [Housecall Pro](https://www.housecallpro.com/) public API.
+> Manage customers, book jobs, create estimates, track invoices, handle leads and more — all from natural language.
 
 ---
 
 ## Requirements
 
-- [Claude Code](https://claude.ai/code) installed
 - Housecall Pro **MAX plan** account
-- A Housecall Pro API key ([how to get one](#getting-your-api-key))
-- Node.js 20+
+- A Housecall Pro API key or OAuth credentials ([how to get one](#getting-your-api-key))
 
 ---
 
-## Installation - 2 steps
+## Installation
 
-### Step 1 — Register the marketplace
+There are two ways to use this tool. Choose the one that fits your workflow.
+
+---
+
+### Option A — hcpro terminal CLI
+
+A standalone terminal tool. One curl command installs everything — no manual config needed.
+
+**Requirements:** [Claude Code](https://claude.ai/code) installed — **macOS and Linux only** (Windows not supported)
+
+#### 1. Install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/feature/cli/install.sh | sh
+```
+
+> If `~/.local/bin` is not in your `$PATH`, the installer will print the command to add it.
+
+To pin to a specific version:
+
+```bash
+HCPRO_VERSION=v0.2.0 curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/feature/cli/install.sh | sh
+```
+
+#### 2. Connect Housecall Pro
+
+```bash
+hcpro auth login
+```
+
+Choose your authentication method when prompted:
+
+- **API Key** *(recommended)* — paste your Housecall Pro API key
+- **OAuth 2.0** *(advanced)* — enter your client ID and secret; a browser window opens for authorization
+
+> **API key is recommended for most users.** OAuth 2.0 requires registering `http://localhost:7891/callback` as an allowed redirect URI in your HCP developer dashboard app settings before running this command. If that step is skipped, the authorization will fail.
+
+> API access requires the **MAX plan**. If you get a 403 error, check your plan.
+
+#### 3. Connect Claude
+
+```bash
+hcpro auth claude login
+```
+
+Choose your Claude authentication method when prompted:
+
+- **API Key** — paste your Anthropic API key (billed per token)
+- **Subscription** — uses your existing Claude.ai Pro/Max subscription via Claude Code
+
+> This step is required even if you're already logged into Claude Code. It's not a re-authentication — it just registers which auth method `hcpro` should use. Choosing **Subscription** will be instant if you're already logged in.
+
+#### 4. Start using it
+
+**One-shot query:**
+
+```bash
+hcpro "list my jobs today"
+hcpro "find customer John Smith"
+hcpro "show all open invoices"
+```
+
+**Interactive session:**
+
+```bash
+hcpro chat
+```
+
+#### Check auth status
+
+```bash
+hcpro auth status
+```
+
+#### Remove credentials
+
+```bash
+hcpro auth logout          # remove HCP credentials
+hcpro auth claude logout   # remove Claude credentials from hcpro (does not sign out of Claude Code itself)
+```
+
+#### Update hcpro
+
+Re-run the install script — it replaces the existing binary in place:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ToDucThanh/housecallpro-mcp/feature/cli/install.sh | sh
+```
+
+#### Uninstall hcpro
+
+```bash
+rm -rf ~/.local/lib/hcpro ~/.local/bin/hcpro
+```
+
+#### Get help
+
+```bash
+hcpro --help
+hcpro auth --help
+hcpro auth claude --help
+```
+
+---
+
+### Option B — Claude Code plugin
+
+For users who prefer to work entirely inside Claude Code.
+
+**Requirements:** [Claude Code](https://claude.ai/code) installed, Node.js 20+
+
+#### Step 1 — Register the marketplace
 
 ```bash
 /plugin marketplace add toducthanh/housecallpro-mcp
@@ -27,20 +137,20 @@
 
 > To scope to the current project only, add `--scope local`. To share with all repo collaborators, add `--scope project`.
 
-### Step 2 — Install and configure the plugin
+#### Step 2 — Install and configure the plugin
 
 Run `/plugin` → open the **Marketplaces** tab → select `toducthanh` → **Browse plugins** → find `housecallpro-mcp` → install it.
 
 After install, go to the **Installed** tab → select `housecallpro-mcp` → **Configure options** and enter your credentials:
 
-**API key auth:**
+**API key auth *(recommended)*:**
 
 | Option | Value |
 |---|---|
 | Authentication method | `apikey` |
 | Housecall Pro API key | your API key |
 
-**OAuth 2.0:**
+**OAuth 2.0 *(advanced)*:**
 
 | Option | Value |
 |---|---|
@@ -48,6 +158,8 @@ After install, go to the **Installed** tab → select `housecallpro-mcp` → **C
 | Housecall Pro client ID | your OAuth client ID |
 | Housecall Pro client secret | your OAuth client secret |
 | Housecall Pro OAuth token | your OAuth access token |
+
+> OAuth for the plugin requires you to obtain an access token manually (e.g. from your HCP developer dashboard). There is no automatic token refresh — when the token expires you will need to update it manually in Configure options. **API key is recommended.**
 
 > You can also install via CLI (user scope by default):
 > ```bash
@@ -57,7 +169,7 @@ After install, go to the **Installed** tab → select `housecallpro-mcp` → **C
 
 Run `/reload-plugins` to activate the plugin.
 
-### Verify it's working
+#### Verify it's working
 
 Run inside Claude Code:
 
@@ -142,7 +254,7 @@ Get company information
 
 ### Book a job for an existing customer
 
-Claude Code will automatically chain these steps:
+The AI will automatically chain these steps:
 
 1. `list_customers` → find customer_id
 2. `list_customer_addresses` → find address_id
@@ -232,6 +344,9 @@ Supported on: `list_customers`, `list_jobs`, `list_estimates`, `list_leads`,
 | `ID cannot be empty` | Empty string as ID | Fetch the correct ID first |
 | `/skills` shows nothing | Plugin not loaded | Re-run steps 1 & 2, then `/reload-plugins` |
 | `/mcp` doesn't show housecallpro | MCP not started | Go to `/plugin` → Installed → Configure options and verify credentials |
+| `HCP credentials not configured` | `hcpro auth login` not run | Run `hcpro auth login` |
+| `Claude credentials not configured` | `hcpro auth claude login` not run | Run `hcpro auth claude login` |
+| `claude binary not found` | Claude Code not installed | Install from [claude.ai/code](https://claude.ai/code) |
 
 ---
 
@@ -290,6 +405,34 @@ claude --plugin-dir .
 
 Use `/reload-plugins` inside the session to pick up changes without restarting.
 
+### CLI development
+
+```bash
+cd cli
+bun install
+bun test                  # run all tests
+bun run dev               # run CLI in dev mode (no build needed)
+```
+
+**Run a command in dev mode:**
+
+```bash
+bun run src/index.ts auth status
+bun run src/index.ts "list my jobs today"
+bun run src/index.ts chat
+```
+
+**Build binaries locally:**
+
+```bash
+bun run build:darwin-arm64   # macOS Apple Silicon
+bun run build:darwin-x64     # macOS Intel
+bun run build:linux-x64      # Linux x64
+bun run build:linux-arm64    # Linux ARM
+```
+
+Binaries are output to `../dist/`.
+
 **Full install flow test:**
 
 ```bash
@@ -332,6 +475,7 @@ claude plugin marketplace remove toducthanh --scope local
 - [Housecall Pro API Docs](https://docs.housecallpro.com/docs/housecall-public-api)
 - [npm package](https://www.npmjs.com/package/@toducthanh/housecallpro-mcp)
 - [GitHub repo](https://github.com/toducthanh/housecallpro-mcp)
+- [GitHub releases](https://github.com/toducthanh/housecallpro-mcp/releases)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [Claude Code](https://claude.ai/code)
 
