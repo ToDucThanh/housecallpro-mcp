@@ -483,4 +483,4 @@ claude plugin marketplace remove toducthanh --scope local
 
 ## License
 
-Code released under the [MIT License](LICENSE).
+Code released under the [General Public License v3.0](LICENSE).
